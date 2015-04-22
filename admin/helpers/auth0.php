@@ -1,5 +1,4 @@
 <?php
-<?php
 /**
  * @package        Auth0 Extension (joomla 3.x)
  * @copyright    Copyright (C) - http://www.auth0.com. All rights reserved.

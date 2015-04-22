@@ -58,6 +58,9 @@ class auth0Controller extends JControllerLegacy
             } else {
                 $this->createAuth0User($userInfo);
             }
+
+            $app = JFactory::getApplication();
+            $app->redirect('/');
         } catch (Exception $e) {
             echo $e;
             EXIT;
