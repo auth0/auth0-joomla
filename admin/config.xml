@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <fieldset name="basic" label="COM_AUTH0_SETTINGS">
+
+        <field name="clientid" type="text" default="" label="Client id" description="Client id description"/>
+        <field name="clientsecret" type="text" default="" label="Client secret"
+               description="Client secret description"/>
+        <field name="domain" type="text" default="" label="Domain" description="Domain description"/>
+
+    </fieldset>
+</config>

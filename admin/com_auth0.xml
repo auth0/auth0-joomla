@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="component" version="3.0" method="upgrade">
+	<name>COM_AUTH0</name>
+	<creationDate>2015-04-15</creationDate>
+	<author>Germán lena</author>
+	<authorEmail>german@auth0.com</authorEmail>
+	<authorUrl>http://www.auth0.com</authorUrl>
+	<version>0.0.0</version>
+	<license>http://www.gnu.org/licenses/gpl-3.0-standalone.html</license>
+	<copyright>Copyright (C) 2015 http://www.auth0.com. All rights reserved.</copyright>
+	<description>(For Joomla 3.x) - Allows you to integrate your Joomla site with Auth0.</description>
+	<scriptfile>process.script.php</scriptfile>
+	<install>
+		<sql>
+		<file driver="mysql" charset="utf8">install.sql</file>
+		</sql>
+	</install>
+	<modules>
+		<module folder="modules" module="mod_auth0" name="Auth0 SSO login" />
+	</modules>
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>auth0.php</filename>
+		<filename>controller.php</filename>
+		<folder>inc</folder>
+		<folder>assets</folder>
+		<folder>views</folder>
+	</files>
+
+	<languages folder="languages">
+		<language tag="en-GB">site/en-GB.com_auth0.ini</language>
+		<language tag="en-GB">site/en-GB.com_auth0.sys.ini</language>
+	</languages>
+	<administration>
+			<menu view="auth0" img="components/com_auth0/assets/auth0icon.png">COM_AUTH0</menu>
+			<submenu>
+				<menu view="auth0" img="components/com_auth0/assets/16home.png">AUTH0_CONNECT</menu>
+				<menu view="users" img="components/com_auth0/assets/16user.png">CONNECTED_USERS</menu>
+				<menu view="test" img="components/com_auth0/assets/16test.png">AUTH0_TEST</menu>
+			</submenu>
+			<files folder="admin">
+					<filename>index.html</filename>
+					<filename>auth0.php</filename>
+					<filename>controller.php</filename>
+					<filename>config.xml</filename>
+					<filename>install.sql</filename>
+					<folder>assets</folder>
+					<folder>models</folder>
+					<folder>helpers</folder>
+					<folder>views</folder>
+			</files>
+			<languages folder="languages">
+					<language tag="en-GB">admin/en-GB.com_auth0.ini</language>
+				 	<language tag="en-GB">site/en-GB.com_auth0.sys.ini</language>
+			</languages>
+	</administration>
+</extension>

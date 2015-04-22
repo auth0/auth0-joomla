@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.0" client="site" method="install">
+    <name>Auth0</name>
+    <author>Germán Lena</author>
+    <creationDate>2015-04-15</creationDate>
+    <authorEmail>german@auth0.com</authorEmail>
+    <authorUrl>http://www.auth0.com</authorUrl>
+    <version>0.0.0</version>
+    <description>MOD_AUTH0XML_DESCRIPTION</description>
+    <files>
+        <filename module="mod_auth0">mod_auth0.php</filename>
+        <filename>mod_auth0.xml</filename>
+        <filename>index.html</filename>
+        <folder>assets</folder>
+        <folder>tmpl</folder>
+    </files>
+    <languages folder="languages">
+        <language tag="en-GB">en-GB.mod_auth0.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+
+            <fieldset name="basic" label="MOD_AUTH0_SETTINGS">
+
+                <field name="show-login-form" type="radio" default="1" label="MOD_AUTH0_SHOW_LOGIN_FORM"
+                       description="MOD_AUTH0_SHOW_LOGIN_FORM_DESC">
+                    <option value="1">MOD_AUTH0_YES</option>
+                    <option value="0">MOD_AUTH0_NO</option>
+                </field>
+
+                <field name="show-as-modal" type="radio" default="1" label="MOD_AUTH0_SHOW_AS_MODAL"
+                       description="MOD_AUTH0_SHOW_AS_MODAL_DESC">
+                    <option value="1">MOD_AUTH0_YES</option>
+                    <option value="0">MOD_AUTH0_NO</option>
+                </field>
+
+                <field name="form-title" type="text" default="" label="MOD_AUTH0_FORM_TITLE"
+                       description="MOD_AUTH0_FORM_TITLE_DESC"/>
+                <field name="icon-url" type="text" default="" label="MOD_AUTH0_ICON_URL"
+                       description="MOD_AUTH0_ICON_URL_DESC"/>
+                <field name="gravatar" type="checkbox" default="0" label="MOD_AUTH0_GRAVATAR"
+                       description="MOD_AUTH0_GRAVATAR_DESC"/>
+
+                <field name="custom-css" type="textarea" default="" label="MOD_AUTH0_CUSTOM_CSS"
+                       description="MOD_AUTH0_CUSTOM_CSS_DESC"/>
+
+                <field name="big-social-button" type="checkbox" default="0" label="MOD_AUTH0_BIG_SOCIAL_BUTTONS"
+                       description="MOD_AUTH0_BIG_SOCIAL_BUTTONS_DESC"/>
+
+
+            </fieldset>
+
+            <fieldset name="advanced" label="MOD_AUTH0_ADVANCED_SETTINGS">
+
+                <field name="lock-url" type="text" default="//cdn.auth0.com/js/lock-7.min.js" label="MOD_AUTH0_LOCK_URL"
+                       description="MOD_AUTH0_LOCK_URL_DESC"/>
+                <field name="dict" type="textarea" default="" label="MOD_AUTH0_DICT" description="MOD_AUTH0_DICT_DESC"/>
+
+                <field name="username-style" type="radio" default="email" label="MOD_AUTH0_USERNAME_STYLE"
+                       description="MOD_AUTH0_USERNAME_STYLE_DESC">
+                    <option value="username">MOD_AUTH0_USERNAME</option>
+                    <option value="email">MOD_AUTH0_EMAIL</option>
+                </field>
+
+                <field name="remember-last-login" type="checkbox" default="0" label="MOD_AUTH0_REMEMBER_LAST_LOGIN"
+                       description="MOD_AUTH0_REMEMBER_LAST_LOGIN_DESC"/>
+
+            </fieldset>
+
+        </fields>
+    </config>
+</extension>
