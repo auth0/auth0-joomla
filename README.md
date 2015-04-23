@@ -3,14 +3,14 @@ Joomla extension focused on Single Sign On for Enterprises + Social Login + User
 
 ##Instalation
 
-1- Download from [here](https://github.com/auth0/auth0-joomla/releases) the latest release of the extension.
-2- Access to the Joomla administrator interface and then upload the zip file to the Extension Manager.
-3- If you don't have an Auth0 account, you can [create one](http://auth0.com) for free).
-4- Go to the Auth0 component (on the top toolbar, under the components menu) and the click on options.
-5- Complete your app information (you can create one or get the information [here](https://manage.auth0.com/#/applications)).
-6- Go to the Module Manager and publish the Auth0 module and after that, access to the module configuration.
-7- Select the module position on the sidebar and enable it for all pages in the "Menu Assignment".
-8- It is done!
+1. Download from [here](https://github.com/auth0/auth0-joomla/releases) the latest release of the extension.
+2. Access to the Joomla administrator interface and then upload the zip file to the Extension Manager.
+3. If you don't have an Auth0 account, you can [create one](http://auth0.com) for free).
+4. Go to the Auth0 component (on the top toolbar, under the components menu) and the click on options.
+5. Complete your app information (you can create one or get the information [here](https://manage.auth0.com/#/applications)).
+6. Go to the Module Manager and publish the Auth0 module and after that, access to the module configuration.
+7. Select the module position on the sidebar and enable it for all pages in the "Menu Assignment".
+8. It is done!
 
 ##User Management configuration
 
