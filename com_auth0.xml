@@ -5,7 +5,7 @@
 	<author>Germán lena</author>
 	<authorEmail>german@auth0.com</authorEmail>
 	<authorUrl>http://www.auth0.com</authorUrl>
-	<version>0.0.0</version>
+	<version>1.0.0</version>
 	<license>http://www.gnu.org/licenses/gpl-2.0-standalone.html</license>
 	<copyright>Copyright (C) 2015 http://www.auth0.com. All rights reserved.</copyright>
 	<description>(For Joomla 3.x) - Allows you to integrate your Joomla site with Auth0.</description>

@@ -6,6 +6,7 @@
  * @author        Germán Lena
  * @download URL    http://www.auth0.com
  */
+defined('_JEXEC') or die('Restricted access');
 
 class Auth0Connect {
 

@@ -5,7 +5,8 @@
     <creationDate>2015-04-15</creationDate>
     <authorEmail>german@auth0.com</authorEmail>
     <authorUrl>http://www.auth0.com</authorUrl>
-    <version>0.0.0</version>
+    <version>1.0.0</version>
+    <license>http://www.gnu.org/licenses/gpl-2.0-standalone.html</license>
     <description>MOD_AUTH0XML_DESCRIPTION</description>
     <files>
         <filename module="mod_auth0">mod_auth0.php</filename>
