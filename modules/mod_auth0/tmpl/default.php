@@ -100,8 +100,9 @@ if ($type == 'login') {
 
         }
 
+
+        $document->addCustomTag($auth0js);
+        $document->addScriptDeclaration($javascript);
     }
-    $document->addCustomTag($auth0js);
-    $document->addScriptDeclaration($javascript);
 
 }
