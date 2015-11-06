@@ -39,7 +39,7 @@ if ($type == 'login') {
         $lockOptions = array();
         $lockOptions['callbackURL'] = $callbackURL;
         $lockOptions['responseType'] = 'code';
-        $lockOptions['authParams'] = array('scope' => 'openid profile');
+        $lockOptions['authParams'] = array('scope' => 'openid name email picture');
         $lockOptions['socialBigButtons'] = $bigSocialButtons;
         $lockOptions['gravatar'] = $gravatar;
         $lockOptions['usernameStyle'] = $usernameStyle;
