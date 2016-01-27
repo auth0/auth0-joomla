@@ -49,6 +49,7 @@ class auth0Controller extends JControllerLegacy
 
         $auth0 = new Auth0Connect($domain, $clientid, $clientsecret, JRoute::_('index.php?option=com_auth0&task=auth', true, -1));
 
+        $app = JFactory::getApplication();
         try {
             $accessToken = $auth0->getAccessToken($code);
             $userInfo = $auth0->getUserInfo($accessToken);
@@ -59,11 +60,11 @@ class auth0Controller extends JControllerLegacy
                 $this->createAuth0User($userInfo);
             }
 
-            $app = JFactory::getApplication();
-            $app->redirect('/');
+            $app->setUserState('users.login.form.data', array());
+            $app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
+
         } catch (Exception $e) {
-            echo $e;
-            EXIT;
+            $app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
         }
     }
 
