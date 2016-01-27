@@ -56,7 +56,9 @@ class auth0Controller extends JControllerLegacy
 
             if (($jUser = $this->doesUserExists($userInfo)) !== null) {
                 $this->loginAuth0User($jUser);
-            } else {
+            } else if (($jUser = $this->doesUserExistsUnlinked($userInfo)) !== null) {
+                $this->linkAuth0User($jUser, $userInfo);
+            } else {               
                 $this->createAuth0User($userInfo);
             }
 
@@ -86,12 +88,28 @@ class auth0Controller extends JControllerLegacy
         return $userDetails[0];
     }
 
+    protected function doesUserExistsUnlinked($userInfo)
+    {
+        $db = JFactory::getDBO();
+
+        $nickname = $userInfo->nickname;
+        $auth0Uid = $userInfo->user_id;
+
+        $db->setQuery("SELECT #__users.* FROM #__users
+                      LEFT JOIN #__auth0_joomla_connect ON #__auth0_joomla_connect.joomla_userid = #__users.id
+                      WHERE #__users.username='$nickname' AND #__auth0_joomla_connect.auth0_userid IS NULL");
+
+        $userDetails = $db->loadObjectList();
+
+        if (count($userDetails) == 0) return null;
+
+        return $userDetails[0];
+    }
+
     protected function loginAuth0User($jUser)
     {
-
         jimport('joomla.user.helper');
         JPluginHelper::importPlugin('user');
-
 
         $mainframe = JFactory::getApplication();
 
@@ -102,6 +120,47 @@ class auth0Controller extends JControllerLegacy
         $response->username = $jUser->username;
 
         $result = $mainframe->triggerEvent('onUserLogin', array((array)$response, $options));
+
+    }
+
+    protected function linkAuth0User($jUser, $userInfo)
+    {
+        jimport('joomla.application.application');
+        jimport('joomla.user.helper');
+        jimport('joomla.utilities.utility');
+        JPluginHelper::importPlugin('user');
+        jimport('joomla.environment.request');
+
+        foreach ($userInfo->identities as $identity) {
+            if ($identity->provider == "auth0") {
+                if ( isset($identity->profileData) && isset($identity->profileData->email_verified) && !$identity->profileData->email_verified) {
+                    die($jUser->name . " Cant link unverified users");
+                }
+            }
+        }
+
+        $session = JFactory::getSession();
+        $db = JFactory::getDBO();
+        $usersConfig = JComponentHelper::getParams('com_users');
+
+        $mainframe = JFactory::getApplication();
+
+        $jomuserid = $jUser->id;
+
+        $intdatetime = time();
+
+        if ($this->doesAuth0UserExists($userInfo->user_id)) { 
+            die($jUser->name . " Already linked");
+        } else {
+            $updateUserQuery = "INSERT INTO #__auth0_joomla_connect(joomla_userid,auth0_userid,joined_date,linked) VALUES ($jomuserid,'$userInfo->user_id',$intdatetime,1)";
+        }
+        $db->setQuery($updateUserQuery);
+        $result = $db->query();
+
+        if ($result) {
+            $this->loginAuth0User($jUser);
+        }
+
 
     }
 
