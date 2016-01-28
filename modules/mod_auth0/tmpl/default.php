@@ -2,7 +2,7 @@
 /**
  * @package        Auth0 Extension (joomla 3.x)
  * @copyright    Copyright (C) - http://www.auth0.com. All rights reserved.
- * @license        The MIT License (MIT), see LICENSE
+ * @license        http://www.gnu.org/licenses/gpl-2.0-standalone.html
  * @author        Germán Lena
  * @download URL    http://www.auth0.com
  */
@@ -39,7 +39,7 @@ if ($type == 'login') {
         $lockOptions = array();
         $lockOptions['callbackURL'] = $callbackURL;
         $lockOptions['responseType'] = 'code';
-        $lockOptions['authParams'] = array('scope' => 'openid profile');
+        $lockOptions['authParams'] = array('scope' => 'openid name email picture');
         $lockOptions['socialBigButtons'] = $bigSocialButtons;
         $lockOptions['gravatar'] = $gravatar;
         $lockOptions['usernameStyle'] = $usernameStyle;
@@ -100,8 +100,9 @@ if ($type == 'login') {
 
         }
 
+
+        $document->addCustomTag($auth0js);
+        $document->addScriptDeclaration($javascript);
     }
-    $document->addCustomTag($auth0js);
-    $document->addScriptDeclaration($javascript);
 
 }
