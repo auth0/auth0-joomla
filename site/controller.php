@@ -29,6 +29,14 @@ class auth0Controller extends JControllerLegacy
         parent::display();
     }
 
+    private function getReturn($key, $type) {
+        $return    = base64_decode($this->app->input->post->get($key, '', $type));
+        if (!JUri::isInternal($return))
+        {
+            $return = '';
+        }
+        return $return;
+    }
 
     #################### Auth User #######################
     function AuthJUser()
@@ -37,6 +45,27 @@ class auth0Controller extends JControllerLegacy
         if (!class_exists('Auth0Connect')) {
             require_once(JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'inc' . DIRECTORY_SEPARATOR . 'auth0_connect.php');
         }
+        if (!class_exists('Auth0ValidationException')) {
+            require_once(JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'inc' . DIRECTORY_SEPARATOR . 'auth0_validation_exception.php');
+        }
+
+        $this->app = JFactory::getApplication('site');
+
+
+        $return = $this->getReturn('state', 'RAW');
+
+        if (empty($return))
+        {
+            $return = $this->getReturn('return', 'BASE64');
+        }
+
+        if (empty($return))
+        {
+            $return = 'index.php?option=com_users&view=profile';
+        }
+
+        // Set the return URL in the user state to allow modification by plugins
+        $this->app->setUserState('users.login.form.return', $return);
 
         $params = JComponentHelper::getParams('com_auth0');
 
@@ -44,12 +73,10 @@ class auth0Controller extends JControllerLegacy
         $clientsecret = $params->get('clientsecret');
         $domain = 'https://' . $params->get('domain');
 
-        $this->app = JFactory::getApplication('site');
         $code = $this->app->input->getVar('code');
 
         $auth0 = new Auth0Connect($domain, $clientid, $clientsecret, JRoute::_('index.php?option=com_auth0&task=auth', true, -1));
 
-        $app = JFactory::getApplication();
         try {
             $accessToken = $auth0->getAccessToken($code);
             $userInfo = $auth0->getUserInfo($accessToken);
@@ -62,11 +89,15 @@ class auth0Controller extends JControllerLegacy
                 $this->createAuth0User($userInfo);
             }
 
-            $app->setUserState('users.login.form.data', array());
-            $app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
+            $this->app->setUserState('users.login.form.data', array());
+            $this->app->redirect(JRoute::_($this->app->getUserState('users.login.form.return'), false));
 
+        } catch (Auth0ValidationException $e) {
+            $this->app->enqueueMessage($e->getMessage(), 'warning');
+            $this->app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
         } catch (Exception $e) {
-            $app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
+            $this->app->enqueueMessage(JText::sprintf('COM_AUTH0_GENERIC_ERROR'), 'warning');
+            $this->app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
         }
     }
 
@@ -134,7 +165,9 @@ class auth0Controller extends JControllerLegacy
         foreach ($userInfo->identities as $identity) {
             if ($identity->provider == "auth0") {
                 if ( isset($identity->profileData) && isset($identity->profileData->email_verified) && !$identity->profileData->email_verified) {
-                    die($jUser->name . " Cant link unverified users");
+
+                    throw new Auth0ValidationException(JText::sprintf('COM_AUTH0_CANT_LINK_UNVERIFIED_USERS'));
+                    
                 }
             }
         }
@@ -150,7 +183,9 @@ class auth0Controller extends JControllerLegacy
         $intdatetime = time();
 
         if ($this->doesAuth0UserExists($userInfo->user_id)) { 
-            die($jUser->name . " Already linked");
+
+            throw new Auth0ValidationException(JText::sprintf('COM_AUTH0_ALREADY_LINKED'));
+
         } else {
             $updateUserQuery = "INSERT INTO #__auth0_joomla_connect(joomla_userid,auth0_userid,joined_date,linked) VALUES ($jomuserid,'$userInfo->user_id',$intdatetime,1)";
         }
@@ -181,7 +216,7 @@ class auth0Controller extends JControllerLegacy
         $mainframe = JFactory::getApplication();
 
         if (!$user->get('guest')) {
-            die($user->name . JText::_('COM_AUTH0_ALREADY_LOGGED_IN'));
+            throw new Auth0ValidationException(JText::sprintf('COM_AUTH0_ALREADY_LOGGED_IN'));
         }
 
         $newUsertype = $usersConfig->get('new_usertype', 2);
@@ -211,8 +246,7 @@ class auth0Controller extends JControllerLegacy
         $userData['sendEmail'] = 0;
 
         if (!$user->bind($userData, 'usertype')) {
-
-            die('user bind error');
+            throw new Auth0ValidationException(JText::sprintf('COM_AUTH0_CANT_CREATE_USER'));
         }
 
         $user->set('groups', array($newUsertype));
