@@ -10,6 +10,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.application.component.controller');
+jimport( 'joomla.application.module.helper' );
 
 class auth0Controller extends JControllerLegacy
 {
@@ -51,6 +52,11 @@ class auth0Controller extends JControllerLegacy
 
         $this->app = JFactory::getApplication('site');
 
+        $com_params = JComponentHelper::getParams('com_auth0');
+        $module = JModuleHelper::getModule('mod_auth0');
+
+        $mod_params = new JRegistry();
+        $mod_params->loadString($module->params);
 
         $return = $this->getReturn('state', 'RAW');
 
@@ -61,17 +67,15 @@ class auth0Controller extends JControllerLegacy
 
         if (empty($return))
         {
-            $return = 'index.php?option=com_users&view=profile';
+            $return = $mod_params->get('redirect-url', 'index.php?option=com_users&view=profile');
         }
 
         // Set the return URL in the user state to allow modification by plugins
         $this->app->setUserState('users.login.form.return', $return);
 
-        $params = JComponentHelper::getParams('com_auth0');
-
-        $clientid = $params->get('clientid');
-        $clientsecret = $params->get('clientsecret');
-        $domain = 'https://' . $params->get('domain');
+        $clientid = $com_params->get('clientid');
+        $clientsecret = $com_params->get('clientsecret');
+        $domain = 'https://' . $com_params->get('domain');
 
         $code = $this->app->input->getVar('code');
 

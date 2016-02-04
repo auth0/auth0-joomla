@@ -48,12 +48,15 @@
                 <field name="big-social-button" type="checkbox" default="0" label="MOD_AUTH0_BIG_SOCIAL_BUTTONS"
                        description="MOD_AUTH0_BIG_SOCIAL_BUTTONS_DESC"/>
 
+                <field name="redirect-url" type="text" default="" label="MOD_AUTH0_REDIRECT_URL"
+                       description="MOD_AUTH0_REDIRECT_URL_DESC"/>
+
 
             </fieldset>
 
             <fieldset name="advanced" label="MOD_AUTH0_ADVANCED_SETTINGS">
 
-                <field name="lock-url" type="text" default="//cdn.auth0.com/js/lock-7.min.js" label="MOD_AUTH0_LOCK_URL"
+                <field name="lock-url" type="text" default="//cdn.auth0.com/js/lock-8.2.2.min.js" label="MOD_AUTH0_LOCK_URL"
                        description="MOD_AUTH0_LOCK_URL_DESC"/>
                 <field name="dict" type="textarea" default="" label="MOD_AUTH0_DICT" description="MOD_AUTH0_DICT_DESC"/>
 
