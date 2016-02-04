@@ -15,6 +15,7 @@ if ($type == 'login') {
 
     if ($params->get('show-login-form') == 1) {
 
+        $redirectUrl = $params->get('redirect-url');
         $showAsModal = ($params->get('show-as-modal') == 1);
         $bigSocialButtons = ($params->get('big-social-button') == 1);
         $lockURL = $params->get('lock-url');
@@ -55,6 +56,10 @@ if ($type == 'login') {
             $lockOptions['dict'] = $dict;
         }
 
+        if (!empty($redirectUrl)) {
+            $lockOptions['authParams']['state'] = base64_encode($redirectUrl);
+        }
+
         if (!empty($iconURL)) {
             $lockOptions['icon'] = $iconURL;
         }
@@ -67,16 +72,16 @@ if ($type == 'login') {
         $lockOptionsJson = json_encode($lockOptions);
 
         $javascript = "
-		var lock;
-		jQuery( document ).ready(function(){
-			lock = new Auth0Lock('$clientid', '$domain');
-		});
+        var lock;
+        jQuery( document ).ready(function(){
+            lock = new Auth0Lock('$clientid', '$domain');
+        });
 
-		function a0ShowLock() {
-			lock.show($lockOptionsJson);
-		}
+        function a0ShowLock() {
+            lock.show($lockOptionsJson);
+        }
 
-	";
+    ";
 
         $auth0js = '<script src="' . $lockURL . '"></script>';
 
@@ -86,11 +91,11 @@ if ($type == 'login') {
         } else {
             $javascript .= "
 
-		jQuery( document ).ready(function(){
-			a0ShowLock();
-		});
+        jQuery( document ).ready(function(){
+            a0ShowLock();
+        });
 
-		";
+        ";
             echo '<div id="auth0-login-form"></div>';
         }
 

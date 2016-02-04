@@ -31,7 +31,7 @@ class auth0Controller extends JControllerLegacy
     }
 
     private function getReturn($key, $type) {
-        $return    = base64_decode($this->app->input->post->get($key, '', $type));
+        $return    = base64_decode($this->app->input->get->get($key, '', $type));
         if (!JUri::isInternal($return))
         {
             $return = '';
@@ -67,7 +67,7 @@ class auth0Controller extends JControllerLegacy
 
         if (empty($return))
         {
-            $return = $mod_params->get('redirect-url', 'index.php?option=com_users&view=profile');
+            $return = 'index.php?option=com_users&view=profile';
         }
 
         // Set the return URL in the user state to allow modification by plugins
