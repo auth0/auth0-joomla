@@ -41,7 +41,7 @@ if ($type == 'login') {
         $lockOptions['auth'] = array();;
         $lockOptions['auth']['redirectUrl'] = $callbackURL;
         $lockOptions['auth']['responseType'] = 'code';
-        $lockOptions['auth']['params'] = array('scope' => 'openid name email picture');
+        $lockOptions['auth']['params'] = array('scope' => 'openid email profile');
         $lockOptions['socialButtonStyle'] = $bigSocialButtons ? 'big' : 'small';
 
         if (!$gravatar) {
