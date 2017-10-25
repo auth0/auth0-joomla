@@ -12,6 +12,9 @@ Joomla extension focused on Single Sign On for Enterprises + Social Login + User
 7. Select the module position on the sidebar and enable it for all pages in the "Menu Assignment".
 8. It is done!
 
+Auth callback url: `/index.php?option=com_auth0&task=coverify`
+Cross Origin Authentication Location: `/index.php?option=com_auth0&task=auth`
+
 ##User Management configuration
 
 You can enable and disable the user signup and select the default user group on the User Managent Configuration.

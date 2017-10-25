@@ -20,6 +20,9 @@ class auth0Controller extends JControllerLegacy
             case 'auth':
                 $this->AuthJUser();
                 break;
+            case 'coverify':
+                $this->COVerify();
+                break;
             default:
                 break;
         }
@@ -37,6 +40,31 @@ class auth0Controller extends JControllerLegacy
             $return = '';
         }
         return $return;
+    }
+
+    function COVerify() {
+      $com_params = JComponentHelper::getParams('com_auth0');
+      $clientid = $com_params->get('clientid');
+      $domain = 'https://' . $com_params->get('domain');
+      $redirect_uri = JRoute::_('index.php?option=com_auth0&task=auth', true, -1);
+
+      echo '
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <script src="http://cdn.auth0.com/js/auth0/9.0.0-beta.2/auth0.min.js"></script>
+        <script type="text/javascript">
+          var auth0 = new auth0.WebAuth({
+          clientID: "'.$clientid.'",
+          domain: "'.$domain.'",
+          redirectUri: "'.$redirect_uri.'"
+          });
+          auth0.crossOriginAuthenticationCallback();
+        </script>
+        </head>
+        <body></body>
+        </html>';
+      exit;
     }
 
     #################### Auth User #######################
@@ -89,7 +117,7 @@ class auth0Controller extends JControllerLegacy
                 $this->loginAuth0User($jUser);
             } else if (($jUser = $this->doesUserExistsUnlinked($userInfo)) !== null) {
                 $this->linkAuth0User($jUser, $userInfo);
-            } else {               
+            } else {
                 $this->createAuth0User($userInfo);
             }
 
@@ -171,7 +199,7 @@ class auth0Controller extends JControllerLegacy
                 if ( isset($identity->profileData) && isset($identity->profileData->email_verified) && !$identity->profileData->email_verified) {
 
                     throw new Auth0ValidationException(JText::sprintf('COM_AUTH0_CANT_LINK_UNVERIFIED_USERS'));
-                    
+
                 }
             }
         }
@@ -186,7 +214,7 @@ class auth0Controller extends JControllerLegacy
 
         $intdatetime = time();
 
-        if ($this->doesAuth0UserExists($userInfo->user_id)) { 
+        if ($this->doesAuth0UserExists($userInfo->user_id)) {
 
             throw new Auth0ValidationException(JText::sprintf('COM_AUTH0_ALREADY_LINKED'));
 
