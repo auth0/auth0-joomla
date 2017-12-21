@@ -38,30 +38,34 @@ if ($type == 'login') {
         $callbackURL = JRoute::_('index.php?option=com_auth0&task=auth', true, -1);
 
         $lockOptions = array();
-        $lockOptions['callbackURL'] = $callbackURL;
-        $lockOptions['responseType'] = 'code';
-        $lockOptions['authParams'] = array('scope' => 'openid name email picture');
-        $lockOptions['socialBigButtons'] = $bigSocialButtons;
-        $lockOptions['gravatar'] = $gravatar;
+        $lockOptions['auth'] = array();;
+        $lockOptions['auth']['redirectUrl'] = $callbackURL;
+        $lockOptions['auth']['responseType'] = 'code';
+        $lockOptions['auth']['params'] = array('scope' => 'openid email profile');
+        $lockOptions['socialButtonStyle'] = $bigSocialButtons ? 'big' : 'small';
+
+        if (!$gravatar) {
+          $lockOptions['gravatar'] = null;
+        }
+
         $lockOptions['usernameStyle'] = $usernameStyle;
         $lockOptions['rememberLastLogin'] = $rememberLastLogin;
 
         if (!empty($formTitle) && empty($dict)) {
-            $lockOptions['dict'] = array(
-                'signin' => array(
-                    'title' => $formTitle
-                )
+            $lockOptions['languageDictionary'] = array(
+              'title' => $formTitle
             );
         } elseif (!empty($dict)) {
-            $lockOptions['dict'] = $dict;
+            $lockOptions['languageDictionary'] = $dict;
         }
 
         if (!empty($redirectUrl)) {
-            $lockOptions['authParams']['state'] = base64_encode($redirectUrl);
+            $lockOptions['auth']['params']['state'] = base64_encode($redirectUrl);
         }
 
         if (!empty($iconURL)) {
-            $lockOptions['icon'] = $iconURL;
+            $lockOptions['theme'] = array();
+            $lockOptions['theme']['logo'] = $iconURL;
         }
 
         if (!$showAsModal) {
@@ -74,11 +78,11 @@ if ($type == 'login') {
         $javascript = "
         var lock;
         jQuery( document ).ready(function(){
-            lock = new Auth0Lock('$clientid', '$domain');
+            lock = new Auth0Lock('$clientid', '$domain', $lockOptionsJson);
         });
 
         function a0ShowLock() {
-            lock.show($lockOptionsJson);
+            lock.show();
         }
 
     ";
