@@ -1,6 +1,10 @@
 # auth0-joomla
 Joomla extension focused on Single Sign On for Enterprises + Social Login + User/Passwords. Powered by Auth0.
 
+## NOTICE
+
+The Auth0 Community is in the process of deprecating this library, and the repository will no longer be available on Github after the end-of-life date of **September 30, 2021**. Please make plans to find a suitable replacement or remove this library from any active projects before the end-of-life date. Please reach out in the supporting [Auth0 Community topic](https://community.auth0.com/t/community-repo-deprecations-september-2021-eol/60380) if you have any questions or concerns.
+
 ##Instalation
 
 1. Download from [here](https://github.com/auth0/auth0-joomla/releases) the latest release of the extension.
