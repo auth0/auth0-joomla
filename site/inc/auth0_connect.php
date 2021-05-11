@@ -67,13 +67,14 @@ class Auth0Connect {
         $body = array(
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'grant_type' => $grantType
+            'grant_type' => $grantType,
+            'audience' => 'https://truemetrics.auth0.com/api/v2/',
         );
         $headers = array(
-            'content-type' => 'application/x-www-form-urlencoded'
+            'content-type' => 'application/json'
         );
 
-        $response = $this->http->post($this->domain . '/oauth/token', $body, $headers);
+        $response = $this->http->post($this->domain . '/oauth/token', json_encode($body), $headers);
 
         $data = json_decode( $response->body );
 

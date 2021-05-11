@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Callback URL">
+		<message>After the user authenticates Auth0 will call back to this URL.</message>
+	</layout>
+</metadata>

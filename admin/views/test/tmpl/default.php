@@ -25,9 +25,13 @@ if (trim($clientid) == "" || trim($clientsecret) == "" || trim($domain) == "") {
 
 
     require_once( JPATH_ROOT.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_auth0'.DIRECTORY_SEPARATOR.'inc'.DIRECTORY_SEPARATOR.'auth0_connect.php' );
+    
+    $callbackurl = JRoute::_('index.php?option=com_auth0&task=auth', true, 1);
+    $callbackurl = str_replace('/administrator', '', $callbackurl);
+    // echo '<p> Callback URL:'.$callbackurl.'</p>';
 
     try {
-        $auth0 = new Auth0Connect($domain, $clientid, $clientsecret, JRoute::_('index.php?option=com_auth0&task=auth', true, -1));
+        $auth0 = new Auth0Connect($domain, $clientid, $clientsecret, $callbackurl);
         $auth0->getToken();
 
         echo '<li>Auth0 app data: <span style="color:green"><b>Complete</b></span></li>';
